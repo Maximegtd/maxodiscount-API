@@ -1,0 +1,44 @@
+version: '1.0'
+
+services:
+  product-service:
+    image: 'image-product-service:v1_0'
+    networks:
+      - web
+    build:
+      context: product-service
+      dockerfile: Dockerfile
+    container_name: product-service
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db/maxodiscount_db
+      - SPRING_DATASOURCE_USERNAME=maxodiscount_admin
+      - SPRING_DATASOURCE_PASSWORD=maxodiscount_admin
+    ports:
+        - 8082:8082
+  db:
+    image: 'postgres:16.1'
+    networks:
+      - web
+    container_name: db
+    restart: always
+    environment:
+      - POSTGRES_DB=maxodiscount_db
+      - POSTGRES_USER=maxodiscount_admin
+      - POSTGRES_PASSWORD=maxodiscount_admin
+      - HIBERNATE_DIALECT=org.hibernate.dialect.PostgreSQLDialect
+      - HIBERNATE_SHOW_SQL=true
+      - HIBERNATE_HBM2DDL_AUTO=create
+    expose:
+      - 5432
+    ports:
+      - 5432:5432
+    volumes:
+      - ./postgres16/data:/var/lib/postgresql/data
+      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+networks:
+  web:
+    name: web
+    driver: bridge

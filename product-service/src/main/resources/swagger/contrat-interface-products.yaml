@@ -29,7 +29,8 @@ paths:
           required: true
           description: ID du produit
           schema:
-            type: integer
+            type: string
+            format: uuid
       responses:
         '200':
           description: Produit récupéré avec succès
@@ -37,3 +38,31 @@ paths:
             application/json:
               schema:
                 $ref: './model/Product.yml'
+    delete:
+        summary: Supprimer un produit
+        operationId: deleteProduct
+        parameters:
+          - name: productId
+            in: path
+            required: true
+            description: ID du produit
+            schema:
+                type: string
+                format: uuid
+        responses:
+          '200':
+            description: Produit supprimé avec succès
+  /products/modify:
+    put:
+      summary: Mettre à jour un produit
+      operationId: updateProduct
+      requestBody:
+        description: Produit à mettre à jour
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: './model/Product.yml'
+      responses:
+        '200':
+          description: Produit mis à jour avec succès

@@ -6,6 +6,7 @@
 package org.maxodiscount.generated.api;
 
 import org.maxodiscount.generated.model.Product;
+import java.util.UUID;
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -21,10 +22,25 @@ import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-11-24T17:49:14.350323800+01:00[Europe/Paris]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-12-08T11:15:05.172407300+01:00[Europe/Paris]")
 @Validated
 @Api(value = "products", description = "the products API")
 public interface ProductsApi {
+
+    /**
+     * DELETE /products/{productId} : Supprimer un produit
+     *
+     * @param productId ID du produit (required)
+     * @return Produit supprimé avec succès (status code 200)
+     */
+    @ApiOperation(value = "Supprimer un produit", nickname = "deleteProduct", notes = "", tags={  })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Produit supprimé avec succès") })
+    @DeleteMapping(
+        value = "/products/{productId}"
+    )
+    ResponseEntity<Void> deleteProduct(@ApiParam(value = "ID du produit",required=true) @PathVariable("productId") UUID productId);
+
 
     /**
      * GET /products/{productId} : Récupérer un produit par ID
@@ -39,7 +55,7 @@ public interface ProductsApi {
         value = "/products/{productId}",
         produces = { "application/json" }
     )
-    ResponseEntity<Product> getProduct(@ApiParam(value = "ID du produit",required=true) @PathVariable("productId") Integer productId);
+    ResponseEntity<Product> getProduct(@ApiParam(value = "ID du produit",required=true) @PathVariable("productId") UUID productId);
 
 
     /**
@@ -55,5 +71,21 @@ public interface ProductsApi {
         produces = { "application/json" }
     )
     ResponseEntity<List<Product>> getProducts();
+
+
+    /**
+     * PUT /products/modify : Mettre à jour un produit
+     *
+     * @param product Produit à mettre à jour (required)
+     * @return Produit mis à jour avec succès (status code 200)
+     */
+    @ApiOperation(value = "Mettre à jour un produit", nickname = "updateProduct", notes = "", tags={  })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Produit mis à jour avec succès") })
+    @PutMapping(
+        value = "/products/modify",
+        consumes = { "application/json" }
+    )
+    ResponseEntity<Void> updateProduct(@ApiParam(value = "Produit à mettre à jour" ,required=true )  @Valid @RequestBody Product product);
 
 }

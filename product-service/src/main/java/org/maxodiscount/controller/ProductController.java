@@ -2,11 +2,11 @@ package org.maxodiscount.controller;
 
 import org.maxodiscount.generated.api.ProductsApi;
 import org.maxodiscount.generated.model.Product;
+import org.maxodiscount.services.ProductService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -14,25 +14,29 @@ import java.util.UUID;
 @RequestMapping("/api/product")
 public class ProductController implements ProductsApi {
 
+    ProductService productService;
+
     @Override
-    public ResponseEntity<Product> getProduct(Integer id) {
-        var product = new Product();
-        product.setId(UUID.randomUUID());
-        product.setName("product name");
-        product.setDescription("product description");
-        product.setPrice(10.00);
+    public ResponseEntity<Product> getProduct(UUID id) {
+        var product = productService.getProduct(id);
         return ResponseEntity.ok(product);
     }
 
     @Override
     public ResponseEntity<List<Product>> getProducts() {
-        var listProduits = new ArrayList<Product>();
-        var product = new Product();
-        product.setId(UUID.randomUUID());
-        product.setName("product name");
-        product.setDescription("product description");
-        product.setPrice(10.00);
-        listProduits.add(product);
+        var listProduits = productService.getAllProducts();
         return ResponseEntity.ok(listProduits);
+    }
+
+    @Override
+    public ResponseEntity<Void> updateProduct(Product product) {
+        productService.updateProduct(product);
+        return ResponseEntity.ok().build();
+    }
+
+    @Override
+    public ResponseEntity<Void> deleteProduct(UUID id) {
+        productService.deleteProduct(id);
+        return ResponseEntity.ok().build();
     }
 }

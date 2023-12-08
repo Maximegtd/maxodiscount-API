@@ -1,6 +1,0 @@
-org\maxodiscount\ProductServiceApplication.class
-org\maxodiscount\generated\model\Product.class
-org\maxodiscount\generated\api\ProductsApi.class
-org\maxodiscount\controller\ProductController.class
-org\maxodiscount\model\Product.class
-org\maxodiscount\repository\ProductRepository.class
